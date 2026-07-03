@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Todo",
+    "name": "Todo App",
     "slug": "Todo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,12 +12,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#E6F4FE"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.jeevan.todoapp"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +36,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "98f0aee1-834f-4308-8eb6-9a883a8c1ea2"
+      }
     }
   }
 }
