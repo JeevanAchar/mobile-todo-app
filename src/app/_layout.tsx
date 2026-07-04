@@ -1,16 +1,21 @@
-import HomeScreen from '@/app/index';
-import '@/global.css';
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import "@/global.css";
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
+import { useColorScheme } from "react-native";
 
-SplashScreen.preventAutoHideAsync();
+export const unstable_settings = {
+  initialRouteName: "Login",
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <HomeScreen />
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" />
+        <Stack.Screen name="index" />
+        <Stack.Screen name="todo" />
+      </Stack>
     </ThemeProvider>
   );
 }
