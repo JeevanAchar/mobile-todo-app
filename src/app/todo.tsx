@@ -1,8 +1,9 @@
 import { useAuth } from "@/hooks/api/useAuth";
 import { useTodos } from "@/hooks/api/useTodos";
+import { showNotification } from "@/services/NotificationService";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -14,6 +15,7 @@ import {
   Modal,
   Platform,
   Pressable,
+  RefreshControl,
   Text,
   TextInput,
   View,
@@ -39,6 +41,7 @@ export default function HomeScreen() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const bootstrap = async () => {
@@ -84,7 +87,15 @@ export default function HomeScreen() {
     if (!inputValue.trim()) return;
 
     try {
-      await createTodo(inputValue.trim());
+      const todoText = inputValue.trim();
+
+      await createTodo(todoText);
+
+      await showNotification({
+        title: "Todo Added ✅",
+        body: `"${todoText}" has been added successfully.`,
+      });
+
       setInputValue("");
     } catch (err: any) {
       Alert.alert("Unable to add todo", err.message);
@@ -122,6 +133,19 @@ export default function HomeScreen() {
     await logout();
     router.replace("/Login");
   };
+
+  const onRefresh = useCallback(() => {
+    (async () => {
+      setRefreshing(true);
+      try {
+        await fetchTodos();
+      } catch {
+        // errors are surfaced via the hook state
+      } finally {
+        setRefreshing(false);
+      }
+    })();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -171,6 +195,9 @@ export default function HomeScreen() {
             contentContainerStyle={{
               paddingBottom: keyboardHeight > 0 ? keyboardHeight + 24 : 24,
             }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
             ListEmptyComponent={
               <View className="flex-1 justify-center items-center mt-24">
                 <MaterialIcons name="assignment" size={70} color="#d1d5db" />
