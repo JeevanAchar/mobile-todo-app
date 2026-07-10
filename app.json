@@ -14,10 +14,14 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#62D2C3",
-        "softwareKeyboardLayoutMode":"resize"
+        "softwareKeyboardLayoutMode": "resize"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.jeevan.todoapp"
+      "package": "com.jeevan.todoapp",
+      "notification": {
+        "icon": "./assets/images/notification-icon.png",
+        "color": "#62D2C3"
+      }
     },
     "web": {
       "bundler": "metro",
